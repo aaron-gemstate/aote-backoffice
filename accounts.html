@@ -1,4 +1,4 @@
-<!-- accounts.html - Accounts Page -->
+<!-- Updated accounts.html - Accounts Page -->
 <div class="header-container">
     <input type="text" class="search-bar" id="searchInput" placeholder="Search accounts...">
     <select id="filterType" onchange="filterAccounts()">
@@ -35,7 +35,7 @@
     function loadAccounts() {
         let tableBody = document.getElementById("tableBody");
         tableBody.innerHTML = accounts.map(acc => 
-            `<tr>
+            `<tr onclick="openAccountDetail('${acc.name}')">
                 <td>${acc.name}</td>
                 <td>${acc.parent}</td>
                 <td>${acc.phone}</td>
@@ -51,7 +51,7 @@
         let filteredAccounts = filterValue === "all" ? accounts : accounts.filter(acc => acc.type === filterValue);
         let tableBody = document.getElementById("tableBody");
         tableBody.innerHTML = filteredAccounts.map(acc => 
-            `<tr>
+            `<tr onclick="openAccountDetail('${acc.name}')">
                 <td>${acc.name}</td>
                 <td>${acc.parent}</td>
                 <td>${acc.phone}</td>
@@ -74,7 +74,7 @@
             acc.owner.toLowerCase().includes(searchValue)
         );
         tableBody.innerHTML = filteredAccounts.map(acc => 
-            `<tr>
+            `<tr onclick="openAccountDetail('${acc.name}')">
                 <td>${acc.name}</td>
                 <td>${acc.parent}</td>
                 <td>${acc.phone}</td>
@@ -84,6 +84,10 @@
             </tr>`
         ).join("");
     });
+
+    function openAccountDetail(accountName) {
+        window.location.href = `account-detail.html?name=${encodeURIComponent(accountName)}`;
+    }
 
     loadAccounts();
 </script>
