@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accounts - Art of the Earth</title>
     <link rel="stylesheet" href="/assets/styles.css">
-    <link rel="stylesheet" href="/account.css">
+    <link rel="stylesheet" href="/accounts/account.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { font-family: 'Roboto', 'Segoe UI', Arial, sans-serif; margin: 0; display: flex; flex-direction: column; background: #F5F7FA; }
@@ -58,92 +58,4 @@
             <div class="dropdown-content">
                 <a href="#" data-module="CRM">CRM</a>
                 <a href="#" data-module="Scheduling">Scheduling</a>
-                <a href="#" data-module="Estimating">Estimating</a>
-                <a href="#" data-module="Billing">Billing</a>
-            </div>
-        </div>
-        <div class="profile-menu">
-            <button id="profileBtn"><i class="fas fa-user-circle"></i></button>
-            <div id="profileDropdown" class="dropdown-menu">
-                <a href="#">Edit Profile</a>
-                <a href="#">Logout</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Container for Sidebar and Main -->
-    <div class="container">
-        <!-- Sidebar -->
-        <aside class="sidebar">
-            <h1 class="app-title">Accounts</h1>
-            <a href="/accounts.html" class="active"><i class="fas fa-users"></i> Accounts</a>
-            <a href="/contacts.html"><i class="fas fa-address-book"></i> Contacts</a>
-            <a href="/opportunities.html"><i class="fas fa-lightbulb"></i> Opportunities</a>
-            <a href="/job_folders.html"><i class="fas fa-folder"></i> Job Folders</a>
-        </aside>
-
-        <!-- Main Content -->
-        <main>
-            <section class="header-container">
-                <input type="text" class="search-bar" placeholder="Search Accounts...">
-                <button class="add-button"><i class="fas fa-plus"></i> Add New Account</button>
-            </section>
-
-            <section class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Account Name</th>
-                            <th>Parent Account</th>
-                            <th>Phone</th>
-                            <th>Type</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody id="accountTableBody">
-                        <tr>
-                            <td><a href="/account_detail.html">Green Landscaping</a></td>
-                            <td>None</td>
-                            <td>555-1234</td>
-                            <td>Residential</td>
-                            <td>contact@greenlandscaping.com</td>
-                        </tr>
-                        <tr>
-                            <td><a href="/account_detail.html">Blue Construction</a></td>
-                            <td>ABC Corp</td>
-                            <td>555-5678</td>
-                            <td>General Contractor</td>
-                            <td>info@blueconstruction.com</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </section>
-        </main>
-    </div>
-
-    <!-- Scripts -->
-    <script src="/assets/script.js"></script>
-    <script src="/accounts/account.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const dropdownBtn = document.querySelector('.dropdown-btn');
-            document.querySelectorAll('.dropdown-content a').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const module = e.target.dataset.module;
-                    dropdownBtn.innerHTML = `<i class="fas fa-th-large"></i> ${module} ▼`;
-                    alert(`Switching to ${module} module (placeholder)`);
-                });
-            });
-            const searchBar = document.querySelector('.search-bar');
-            const tableBody = document.getElementById('accountTableBody');
-            searchBar.addEventListener('input', () => {
-                const filter = searchBar.value.toLowerCase();
-                Array.from(tableBody.rows).forEach(row => {
-                    row.style.display = row.cells[0].textContent.toLowerCase().includes(filter) ? '' : 'none';
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+                <a href="#" data-module="Esti
