@@ -3,24 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art of the Earth</title>
+    <title>Art of the Earth - Backoffice</title>
+    <!-- Fallback inline CSS if styles.css fails -->
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; display: flex; }
+        .sidebar { width: 200px; background: #f4f4f4; padding: 20px; height: 100vh; }
+        .sidebar a { display: block; padding: 10px; color: #333; text-decoration: none; }
+        .sidebar a:hover { background: #ddd; }
+        header { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #4CAF50; color: white; }
+        .app-title { font-size: 24px; }
+        .profile-menu { position: relative; }
+        .dropdown-menu { display: none; position: absolute; right: 0; background: #fff; box-shadow: 0 8px 16px rgba(0,0,0,0.2); min-width: 120px; }
+        .dropdown-menu a { display: block; padding: 10px; color: #333; text-decoration: none; }
+        .dropdown-menu a:hover { background: #f1f1f1; }
+        .profile-menu:hover .dropdown-menu { display: block; }
+        main { flex-grow: 1; padding: 20px; }
+        .header-container { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .search-bar { padding: 8px; width: 50%; }
+        .add-button { padding: 8px 16px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        .add-button:hover { background: #45a049; }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f4f4f4; }
+        a { color: #4CAF50; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
     <link rel="stylesheet" href="assets/styles.css">
-    <script defer src="assets/script.js"></script>
 </head>
 <body>
+    <!-- Top Navigation (App Modules) -->
+    <nav class="top-menu">
+        <div class="dropdown">
+            <button class="dropdown-btn">Backoffice ▼</button>
+            <div class="dropdown-content">
+                <a href="#" data-module="CRM">CRM</a>
+                <a href="#" data-module="Scheduling">Scheduling</a>
+                <a href="#" data-module="Estimating">Estimating</a>
+                <a href="#" data-module="Billing">Billing</a>
+            </div>
+        </div>
+    </nav>
+
     <!-- Sidebar Navigation -->
-    <div class="sidebar">
+    <aside class="sidebar">
         <a href="accounts.html">Accounts</a>
         <a href="contacts.html">Contacts</a>
         <a href="opportunities.html">Opportunities</a>
         <a href="job_folders.html">Job Folders</a>
-    </div>
+    </aside>
     
     <!-- Header Section -->
     <header>
-        <div class="app-title">Art of the Earth</div>
+        <h1 class="app-title">Art of the Earth</h1>
         <div class="profile-menu">
-            <button id="profileBtn">Profile</button>
+            <button id="profileBtn" aria-label="Profile Options">Profile</button>
             <div id="profileDropdown" class="dropdown-menu">
                 <a href="#">Edit Profile</a>
                 <a href="#">Logout</a>
@@ -30,20 +67,20 @@
 
     <!-- Main Content Area -->
     <main>
-        <div class="header-container">
-            <input type="text" class="search-bar" placeholder="Search Accounts...">
-            <button class="add-button">Add New</button>
-        </div>
+        <section class="header-container">
+            <input type="text" class="search-bar" placeholder="Search Accounts..." aria-label="Search Accounts">
+            <button class="add-button" aria-label="Add New Account">Add New</button>
+        </section>
 
-        <div class="table-container">
-            <table>
+        <section class="table-container">
+            <table role="grid">
                 <thead>
                     <tr>
-                        <th>Account Name</th>
-                        <th>Parent Account</th>
-                        <th>Phone</th>
-                        <th>Type</th>
-                        <th>Email</th>
+                        <th scope="col">Account Name</th>
+                        <th scope="col">Parent Account</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Type</th>
+                        <th scope="col">Email</th>
                     </tr>
                 </thead>
                 <tbody id="accountTableBody">
@@ -63,7 +100,38 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </section>
     </main>
+
+    <!-- Inline JS with fallback -->
+    <script>
+        // Profile dropdown toggle (if script.js fails)
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileBtn = document.getElementById('profileBtn');
+            const profileDropdown = document.getElementById('profileDropdown');
+            profileBtn.addEventListener('click', () => {
+                profileDropdown.style.display = 
+                    profileDropdown.style.display === 'block' ? 'none' : 'block';
+            });
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!profileBtn.contains(e.target) && !profileDropdown.contains(e.target)) {
+                    profileDropdown.style.display = 'none';
+                }
+            });
+
+            // Mock search filter
+            const searchBar = document.querySelector('.search-bar');
+            const tableBody = document.getElementById('accountTableBody');
+            searchBar.addEventListener('input', () => {
+                const filter = searchBar.value.toLowerCase();
+                Array.from(tableBody.rows).forEach(row => {
+                    const name = row.cells[0].textContent.toLowerCase();
+                    row.style.display = name.includes(filter) ? '' : 'none';
+                });
+            });
+        });
+    </script>
+    <script defer src="assets/script.js"></script>
 </body>
 </html>
