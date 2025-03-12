@@ -27,7 +27,7 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
         th { background-color: #0070d2; color: white; cursor: pointer; }
-        .details-page { display: none; flex-direction: column; }
+        .details-page { display: none; flex-direction: column; padding: 20px; }
         .back-button { padding: 8px 12px; background-color: #ccc; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
         .back-button:hover { background-color: #999; }
         .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); border-radius: 5px; z-index: 200; }
@@ -53,7 +53,7 @@
             <a onclick="loadSection('Job Folders')">Job Folders</a>
         </div>
 
-        <div class="main-panel">
+        <div class="main-panel" id="mainPanel">
             <div class="header-container">
                 <input type="text" class="search-bar" id="searchInput" placeholder="Search...">
                 <button class="add-button" onclick="openModal()">+ Add New</button>
@@ -64,6 +64,14 @@
                     <tbody id="tableBody"></tbody>
                 </table>
             </div>
+        </div>
+
+        <!-- Account Details Page -->
+        <div id="detailsPage" class="details-page">
+            <button class="back-button" onclick="goBack()">← Back</button>
+            <h2 id="accountName"></h2>
+            <p id="accountType"></p>
+            <p id="accountOwner"></p>
         </div>
     </div>
 
@@ -80,7 +88,10 @@
 
     <script>
         let data = {
-            "Accounts": [{ name: "Green Landscaping", type: "Commercial", owner: "John Doe" }],
+            "Accounts": [
+                { name: "Green Landscaping", type: "Commercial", owner: "John Doe" },
+                { name: "Sunset Gardens", type: "Residential", owner: "Alice Smith" }
+            ],
             "Opportunities": [{ name: "Pool Renovation", type: "Residential", owner: "Jane Smith" }],
             "Contacts": [{ name: "Alice Johnson", type: "Client", owner: "Green Landscaping" }],
             "Job Folders": [{ name: "Spring Cleanup", type: "Ongoing", owner: "John Doe" }]
@@ -89,19 +100,25 @@
         function loadSection(section) {
             document.getElementById("app-title").innerText = `Art of the Earth - ${section}`;
             let tableBody = document.getElementById("tableBody");
-            tableBody.innerHTML = data[section].map(d => `<tr><td>${d.name}</td><td>${d.type}</td><td>${d.owner}</td></tr>`).join("");
+            tableBody.innerHTML = data[section].map((d, index) => 
+                `<tr onclick="viewAccount(${index})"><td>${d.name}</td><td>${d.type}</td><td>${d.owner}</td></tr>`
+            ).join("");
+            document.getElementById("detailsPage").style.display = "none";
+            document.getElementById("mainPanel").style.display = "block";
         }
 
-        function openModal() { document.getElementById("modal").style.display = "block"; }
-        function closeModal() { document.getElementById("modal").style.display = "none"; }
-
-        function toggleAppDropdown(event) {
-            let dropdown = document.querySelector(".app-dropdown");
-            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
-            event.stopPropagation();
+        function viewAccount(index) {
+            let account = data["Accounts"][index];
+            document.getElementById("accountName").innerText = account.name;
+            document.getElementById("accountType").innerText = `Type: ${account.type}`;
+            document.getElementById("accountOwner").innerText = `Owner: ${account.owner}`;
+            
+            document.getElementById("mainPanel").style.display = "none";
+            document.getElementById("detailsPage").style.display = "flex";
         }
-        document.body.addEventListener("click", () => document.querySelector(".app-dropdown").style.display = "none");
-        
+
+        function goBack() { loadSection("Accounts"); }
+
         loadSection("Accounts");
     </script>
 
