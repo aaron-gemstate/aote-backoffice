@@ -65,31 +65,6 @@
         .app-dropdown a:hover {
             background-color: #f1f1f1;
         }
-        .profile-menu {
-            position: relative;
-            cursor: pointer;
-            font-weight: 500;
-        }
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            right: 10px;
-            top: 40px;
-            background: white;
-            border-radius: 5px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-            z-index: 100;
-        }
-        .dropdown-menu a {
-            display: block;
-            padding: 10px;
-            text-decoration: none;
-            color: black;
-            cursor: pointer;
-        }
-        .dropdown-menu a:hover {
-            background-color: #f1f1f1;
-        }
         .container {
             display: flex;
             flex-grow: 1;
@@ -121,18 +96,36 @@
             border-radius: 10px;
             margin: 20px;
             box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
         }
-        .header {
-            font-size: 26px;
-            font-weight: 600;
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
+        }
+        .search-bar {
+            width: 250px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .add-button {
+            padding: 8px 12px;
+            background-color: #0070d2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .add-button:hover {
+            background-color: #005bb5;
         }
         .table-container {
             overflow-x: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            flex-grow: 1;
         }
         table {
             width: 100%;
@@ -148,55 +141,46 @@
             color: white;
             cursor: pointer;
         }
+        .account-page {
+            display: none;
+            flex-direction: column;
+        }
+        .back-button {
+            padding: 8px 12px;
+            background-color: #ccc;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .back-button:hover {
+            background-color: #999;
+        }
     </style>
 </head>
-<body onclick="closeMenus(event)">
+<body>
 
-    <!-- 🔹 TOP NAVIGATION -->
     <div class="top-nav">
         <div class="app-menu" onclick="toggleAppDropdown(event)">
             <span class="hamburger">☰</span>
             <span id="app-title">Art of the Earth - CRM</span>
         </div>
-        <div>
-            <span onclick="toggleSettingsDropdown(event)">⚙️</span>
-            <span class="profile-menu" onclick="toggleProfileDropdown(event)">👤</span>
-        </div>
-    </div>
-
-    <!-- 🔹 APPLICATION DROPDOWN MENU -->
-    <div class="app-dropdown" id="appDropdown">
-        <a onclick="switchApp('CRM')">CRM</a>
-        <a onclick="switchApp('Billing')">Billing</a>
-        <a onclick="switchApp('Estimating')">Estimating</a>
-        <a onclick="switchApp('Scheduling')">Scheduling</a>
-    </div>
-
-    <!-- 🔹 SETTINGS DROPDOWN -->
-    <div class="dropdown-menu" id="settingsDropdown">
-        <a href="#">Settings</a>
-    </div>
-
-    <!-- 🔹 PROFILE DROPDOWN MENU -->
-    <div class="dropdown-menu" id="profileDropdown">
-        <a href="#">Edit Profile</a>
-        <a href="#">Logout</a>
     </div>
 
     <div class="container">
-        <!-- 🔹 SIDEBAR -->
         <div class="sidebar">
             <h3>CRM Navigation</h3>
-            <a onclick="loadData('Accounts')">Accounts</a>
-            <a onclick="loadData('Opportunities')">Opportunities</a>
-            <a onclick="loadData('Contacts')">Contacts</a>
-            <a onclick="loadData('Job Folders')">Job Folders</a>
+            <a onclick="loadAccounts()">Accounts</a>
         </div>
 
-        <!-- 🔹 MAIN PANEL -->
         <div class="main-panel">
-            <div class="header" id="sectionTitle">Accounts</div>
-            <div class="table-container">
+            <div class="header-container">
+                <input type="text" class="search-bar" id="searchInput" onkeyup="searchAccounts()" placeholder="Search Accounts...">
+                <button class="add-button" onclick="alert('Add Account Modal Coming Soon!')">+ Add New</button>
+            </div>
+
+            <div class="table-container" id="accountsPage">
                 <table>
                     <thead>
                         <tr>
@@ -206,47 +190,61 @@
                             <th>Created Date</th>
                         </tr>
                     </thead>
-                    <tbody id="dataTable">
-                        <!-- Data will be dynamically loaded here -->
-                    </tbody>
+                    <tbody id="accountsTable"></tbody>
                 </table>
+            </div>
+
+            <div class="account-page" id="accountPage">
+                <button class="back-button" onclick="goBack()">← Back to Accounts</button>
+                <h2 id="accountName"></h2>
+                <p><strong>Type:</strong> <span id="accountType"></span></p>
+                <p><strong>Owner:</strong> <span id="accountOwner"></span></p>
+                <p><strong>Created Date:</strong> <span id="accountDate"></span></p>
             </div>
         </div>
     </div>
 
     <script>
-        const data = {
-            "Accounts": [
-                { name: "Green Landscaping", type: "Commercial", owner: "John Doe", created: "2024-05-01" },
-                { name: "Blue Skies Pools", type: "Residential", owner: "Jane Smith", created: "2024-06-15" }
-            ],
-            "Opportunities": [
-                { name: "New Project - Smith Yard", type: "Residential", owner: "Sarah Lee", created: "2024-06-10" }
-            ],
-            "Contacts": [
-                { name: "John Doe", type: "Client", owner: "Green Landscaping", created: "2023-09-10" }
-            ],
-            "Job Folders": [
-                { name: "123 Maple St Renovation", type: "Ongoing", owner: "Green Landscaping", created: "2024-07-01" }
-            ]
-        };
+        let accounts = [
+            { name: "Green Landscaping", type: "Commercial", owner: "John Doe", created: "2024-05-01" },
+            { name: "Blue Skies Pools", type: "Residential", owner: "Jane Smith", created: "2024-06-15" }
+        ];
 
-        function toggleAppDropdown(event) {
-            document.getElementById("appDropdown").style.display = "block";
-            event.stopPropagation();
+        function loadAccounts() {
+            document.getElementById("accountPage").style.display = "none";
+            document.getElementById("accountsPage").style.display = "block";
+            let table = document.getElementById("accountsTable");
+            table.innerHTML = accounts.map(a => `
+                <tr onclick="openAccount('${a.name}', '${a.type}', '${a.owner}', '${a.created}')">
+                    <td>${a.name}</td><td>${a.type}</td><td>${a.owner}</td><td>${a.created}</td>
+                </tr>
+            `).join("");
         }
 
-        function closeMenus(event) {
-            if (!event.target.closest('.app-menu, .app-dropdown')) document.getElementById("appDropdown").style.display = "none";
+        function searchAccounts() {
+            let input = document.getElementById("searchInput").value.toLowerCase();
+            let filtered = accounts.filter(a => a.name.toLowerCase().includes(input));
+            document.getElementById("accountsTable").innerHTML = filtered.map(a => `
+                <tr onclick="openAccount('${a.name}', '${a.type}', '${a.owner}', '${a.created}')">
+                    <td>${a.name}</td><td>${a.type}</td><td>${a.owner}</td><td>${a.created}</td>
+                </tr>
+            `).join("");
         }
 
-        function loadData(section) {
-            document.getElementById("sectionTitle").innerText = section;
-            const table = document.getElementById("dataTable");
-            table.innerHTML = data[section].map(d => `<tr><td>${d.name}</td><td>${d.type}</td><td>${d.owner}</td><td>${d.created}</td></tr>`).join("");
+        function openAccount(name, type, owner, created) {
+            document.getElementById("accountsPage").style.display = "none";
+            document.getElementById("accountPage").style.display = "flex";
+            document.getElementById("accountName").innerText = name;
+            document.getElementById("accountType").innerText = type;
+            document.getElementById("accountOwner").innerText = owner;
+            document.getElementById("accountDate").innerText = created;
         }
 
-        loadData("Accounts");
+        function goBack() {
+            loadAccounts();
+        }
+
+        loadAccounts();
     </script>
 
 </body>
