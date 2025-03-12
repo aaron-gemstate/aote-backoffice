@@ -7,20 +7,20 @@
     <link rel="stylesheet" href="/assets/styles.css">
     <style>
         /* Inline fallback CSS */
-        body { font-family: Arial, sans-serif; margin: 0; display: flex; }
-        .top-menu { position: absolute; top: 10px; left: 10px; }
-        .dropdown { position: relative; display: inline-block; }
+        body { font-family: Arial, sans-serif; margin: 0; display: flex; flex-direction: column; }
+        .top-bar { background: #f4f4f4; padding: 10px; display: flex; align-items: center; flex-wrap: wrap; }
+        .dropdown { position: relative; display: inline-block; margin-right: 20px; }
         .dropdown-btn { padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
         .dropdown-content { display: none; position: absolute; background: #fff; min-width: 160px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1; }
         .dropdown-content a { padding: 10px; color: #333; text-decoration: none; display: block; }
         .dropdown:hover .dropdown-content { display: block; }
-        .sidebar { width: 200px; background: #f4f4f4; padding: 20px; height: 100vh; }
-        .sidebar a { padding: 10px; color: #333; text-decoration: none; display: block; }
-        .sidebar a:hover { background: #ddd; }
-        header { display: flex; justify-content: space-between; padding: 10px 20px; background: #4CAF50; color: white; }
-        .app-title { font-size: 24px; margin: 0; }
+        .top-bar a { padding: 10px; color: #333; text-decoration: none; margin-right: 20px; }
+        .top-bar a:hover { background: #ddd; }
+        .container { display: flex; flex: 1; }
+        header { width: 200px; background: #4CAF50; color: white; padding: 20px; height: 100vh; box-sizing: border-box; }
+        .app-title { font-size: 24px; margin: 0 0 20px 0; }
         .profile-menu { position: relative; }
-        .dropdown-menu { display: none; position: absolute; right: 0; background: #fff; box-shadow: 0 8px 16px rgba(0,0,0,0.2); min-width: 120px; }
+        .dropdown-menu { display: none; position: absolute; left: 100%; top: 0; background: #fff; box-shadow: 0 8px 16px rgba(0,0,0,0.2); min-width: 120px; }
         .profile-menu:hover .dropdown-menu { display: block; }
         .dropdown-menu a { padding: 10px; color: #333; text-decoration: none; display: block; }
         .dropdown-menu a:hover { background: #f1f1f1; }
@@ -34,8 +34,8 @@
     </style>
 </head>
 <body>
-    <!-- Top Navigation -->
-    <nav class="top-menu">
+    <!-- Top Bar (formerly Sidebar) -->
+    <nav class="top-bar">
         <div class="dropdown">
             <button class="dropdown-btn">Backoffice ▼</button>
             <div class="dropdown-content">
@@ -45,53 +45,52 @@
                 <a href="#" data-module="Billing">Billing</a>
             </div>
         </div>
-    </nav>
-
-    <!-- Sidebar Navigation -->
-    <aside class="sidebar">
         <a href="/accounts/accounts.html">Accounts</a>
         <a href="/contacts.html">Contacts</a>
         <a href="/opportunities.html">Opportunities</a>
         <a href="/job_folders.html">Job Folders</a>
-    </aside>
+    </nav>
 
-    <!-- Header -->
-    <header>
-        <h1 class="app-title">Art of the Earth</h1>
-        <div class="profile-menu">
-            <button id="profileBtn">Profile</button>
-            <div id="profileDropdown" class="dropdown-menu">
-                <a href="#">Edit Profile</a>
-                <a href="#">Logout</a>
+    <!-- Container for Header and Main -->
+    <div class="container">
+        <!-- Header (now on left) -->
+        <header>
+            <h1 class="app-title">Art of the Earth</h1>
+            <div class="profile-menu">
+                <button id="profileBtn">Profile</button>
+                <div id="profileDropdown" class="dropdown-menu">
+                    <a href="#">Edit Profile</a>
+                    <a href="#">Logout</a>
+                </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Main Content -->
-    <main>
-        <section class="header-container">
-            <input type="text" class="search-bar" placeholder="Search Everything...">
-            <button class="add-button">Add New</button>
-        </section>
+        <!-- Main Content -->
+        <main>
+            <section class="header-container">
+                <input type="text" class="search-bar" placeholder="Search Everything...">
+                <button class="add-button">Add New</button>
+            </section>
 
-        <section class="stats">
-            <h2>Quick Stats</h2>
-            <p>Total Accounts: 25</p>
-            <p>Open Opportunities: 8</p>
-            <p>New Leads Today: 3</p>
-            <p>Jobs Scheduled Today: 12</p>
-        </section>
+            <section class="stats">
+                <h2>Quick Stats</h2>
+                <p>Total Accounts: 25</p>
+                <p>Open Opportunities: 8</p>
+                <p>New Leads Today: 3</p>
+                <p>Jobs Scheduled Today: 12</p>
+            </section>
 
-        <section class="recent-activity">
-            <h2>Recent Activity</h2>
-            <ul>
-                <li>Added Account: Green Landscaping - 2025-03-11</li>
-                <li>Closed Opportunity: Blue Construction - $5,000 - 2025-03-10</li>
-                <li>Scheduled Job: 123 Maple St - 2025-03-12</li>
-                <li>Added Lead: John Doe - 2025-03-09</li>
-            </ul>
-        </section>
-    </main>
+            <section class="recent-activity">
+                <h2>Recent Activity</h2>
+                <ul>
+                    <li>Added Account: Green Landscaping - 2025-03-11</li>
+                    <li>Closed Opportunity: Blue Construction - $5,000 - 2025-03-10</li>
+                    <li>Scheduled Job: 123 Maple St - 2025-03-12</li>
+                    <li>Added Lead: John Doe - 2025-03-09</li>
+                </ul>
+            </section>
+        </main>
+    </div>
 
     <!-- Scripts -->
     <script src="/assets/script.js"></script>
