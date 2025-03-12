@@ -1,1 +1,111 @@
+/* General Page Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* Header Styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #0044cc;
+    color: white;
+}
+
+.app-title {
+    font-size: 20px;
+}
+
+/* Navigation */
+nav {
+    display: flex;
+    align-items: center;
+    background-color: #003399;
+    padding: 10px;
+    color: white;
+}
+
+#hamburgerBtn {
+    font-size: 20px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.show {
+    display: block;
+}
+
+/* Table Styling */
+.table-container {
+    background: white;
+    margin: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px;
+}
+
+th {
+    background-color: #0044cc;
+    color: white;
+}
+
+/* Buttons */
+.add-button {
+    background-color: #0044cc;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+.search-bar {
+    padding: 8px;
+    width: 200px;
+}
+
+/* Profile Menu */
+.profile-menu {
+    position: relative;
+}
+
+#profileDropdown {
+    display: none;
+    position: absolute;
+    background: white;
+    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+#profileBtn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
 
