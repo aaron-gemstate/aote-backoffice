@@ -6,157 +6,33 @@
     <title>Art of the Earth - CRM</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-        body {
-            display: flex;
-            flex-direction: column;
-            background-color: #f4f7f6;
-            height: 100vh;
-        }
-        .top-nav {
-            width: 100%;
-            background-color: #0070d2;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 20px;
-            position: relative;
-        }
-        .app-menu {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            font-size: 18px;
-            font-weight: 600;
-        }
-        .hamburger {
-            font-size: 24px;
-            cursor: pointer;
-        }
-        .app-dropdown {
-            display: none;
-            position: absolute;
-            top: 50px;
-            left: 20px;
-            background-color: white;
-            color: black;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-            border-radius: 5px;
-            overflow: hidden;
-            min-width: 180px;
-            z-index: 100;
-        }
-        .app-dropdown a {
-            display: block;
-            padding: 12px;
-            text-decoration: none;
-            color: black;
-            font-size: 16px;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .app-dropdown a:hover {
-            background-color: #f1f1f1;
-        }
-        .container {
-            display: flex;
-            flex-grow: 1;
-            height: calc(100vh - 60px);
-        }
-        .sidebar {
-            width: 220px;
-            background-color: #2c3e50;
-            padding: 20px;
-            color: white;
-            box-shadow: 2px 0px 5px rgba(0,0,0,0.2);
-        }
-        .sidebar a {
-            display: block;
-            padding: 12px;
-            color: white;
-            text-decoration: none;
-            font-weight: 400;
-            cursor: pointer;
-        }
-        .sidebar a:hover {
-            background-color: #34495e;
-            border-radius: 5px;
-        }
-        .main-panel {
-            flex-grow: 1;
-            padding: 30px;
-            background: white;
-            border-radius: 10px;
-            margin: 20px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-            display: flex;
-            flex-direction: column;
-        }
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        .search-bar {
-            width: 250px;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        .add-button {
-            padding: 8px 12px;
-            background-color: #0070d2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .add-button:hover {
-            background-color: #005bb5;
-        }
-        .table-container {
-            overflow-x: auto;
-            flex-grow: 1;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        th {
-            background-color: #0070d2;
-            color: white;
-            cursor: pointer;
-        }
-        .account-page {
-            display: none;
-            flex-direction: column;
-        }
-        .back-button {
-            padding: 8px 12px;
-            background-color: #ccc;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-        .back-button:hover {
-            background-color: #999;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Poppins', sans-serif; }
+        body { display: flex; flex-direction: column; background-color: #f4f7f6; height: 100vh; }
+        .top-nav { width: 100%; background-color: #0070d2; color: white; display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; position: relative; }
+        .app-menu { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: 18px; font-weight: 600; }
+        .hamburger { font-size: 24px; cursor: pointer; }
+        .app-dropdown { display: none; position: absolute; top: 50px; left: 20px; background-color: white; color: black; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); border-radius: 5px; overflow: hidden; min-width: 180px; z-index: 100; }
+        .app-dropdown a { display: block; padding: 12px; text-decoration: none; color: black; font-size: 16px; font-weight: 500; cursor: pointer; }
+        .app-dropdown a:hover { background-color: #f1f1f1; }
+        .container { display: flex; flex-grow: 1; height: calc(100vh - 60px); }
+        .sidebar { width: 220px; background-color: #2c3e50; padding: 20px; color: white; box-shadow: 2px 0px 5px rgba(0,0,0,0.2); }
+        .sidebar a { display: block; padding: 12px; color: white; text-decoration: none; font-weight: 400; cursor: pointer; }
+        .sidebar a:hover { background-color: #34495e; border-radius: 5px; }
+        .main-panel { flex-grow: 1; padding: 30px; background: white; border-radius: 10px; margin: 20px; box-shadow: 0px 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .search-bar { width: 250px; padding: 8px; border: 1px solid #ccc; border-radius: 5px; }
+        .add-button { padding: 8px 12px; background-color: #0070d2; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .add-button:hover { background-color: #005bb5; }
+        .table-container { overflow-x: auto; flex-grow: 1; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background-color: #0070d2; color: white; cursor: pointer; }
+        .details-page { display: none; flex-direction: column; }
+        .back-button { padding: 8px 12px; background-color: #ccc; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 10px; }
+        .back-button:hover { background-color: #999; }
+        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; box-shadow: 0px 4px 10px rgba(0,0,0,0.2); border-radius: 5px; z-index: 200; }
+        .modal input, .modal select { display: block; width: 100%; margin: 10px 0; padding: 8px; }
+        .modal-buttons { display: flex; justify-content: space-between; }
     </style>
 </head>
 <body>
@@ -171,80 +47,62 @@
     <div class="container">
         <div class="sidebar">
             <h3>CRM Navigation</h3>
-            <a onclick="loadAccounts()">Accounts</a>
+            <a onclick="loadSection('Accounts')">Accounts</a>
+            <a onclick="loadSection('Opportunities')">Opportunities</a>
+            <a onclick="loadSection('Contacts')">Contacts</a>
+            <a onclick="loadSection('Job Folders')">Job Folders</a>
         </div>
 
         <div class="main-panel">
             <div class="header-container">
-                <input type="text" class="search-bar" id="searchInput" onkeyup="searchAccounts()" placeholder="Search Accounts...">
-                <button class="add-button" onclick="alert('Add Account Modal Coming Soon!')">+ Add New</button>
+                <input type="text" class="search-bar" id="searchInput" placeholder="Search...">
+                <button class="add-button" onclick="openModal()">+ Add New</button>
             </div>
-
-            <div class="table-container" id="accountsPage">
+            <div class="table-container">
                 <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Owner</th>
-                            <th>Created Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="accountsTable"></tbody>
+                    <thead><tr><th>Name</th><th>Type</th><th>Owner</th></tr></thead>
+                    <tbody id="tableBody"></tbody>
                 </table>
-            </div>
-
-            <div class="account-page" id="accountPage">
-                <button class="back-button" onclick="goBack()">← Back to Accounts</button>
-                <h2 id="accountName"></h2>
-                <p><strong>Type:</strong> <span id="accountType"></span></p>
-                <p><strong>Owner:</strong> <span id="accountOwner"></span></p>
-                <p><strong>Created Date:</strong> <span id="accountDate"></span></p>
             </div>
         </div>
     </div>
 
+    <div id="modal" class="modal">
+        <h3 id="modal-title">Add New Item</h3>
+        <input type="text" placeholder="Name">
+        <select><option>Type</option><option>Residential</option><option>Commercial</option></select>
+        <input type="text" placeholder="Owner">
+        <div class="modal-buttons">
+            <button onclick="closeModal()">Cancel</button>
+            <button onclick="closeModal()">Submit</button>
+        </div>
+    </div>
+
     <script>
-        let accounts = [
-            { name: "Green Landscaping", type: "Commercial", owner: "John Doe", created: "2024-05-01" },
-            { name: "Blue Skies Pools", type: "Residential", owner: "Jane Smith", created: "2024-06-15" }
-        ];
+        let data = {
+            "Accounts": [{ name: "Green Landscaping", type: "Commercial", owner: "John Doe" }],
+            "Opportunities": [{ name: "Pool Renovation", type: "Residential", owner: "Jane Smith" }],
+            "Contacts": [{ name: "Alice Johnson", type: "Client", owner: "Green Landscaping" }],
+            "Job Folders": [{ name: "Spring Cleanup", type: "Ongoing", owner: "John Doe" }]
+        };
 
-        function loadAccounts() {
-            document.getElementById("accountPage").style.display = "none";
-            document.getElementById("accountsPage").style.display = "block";
-            let table = document.getElementById("accountsTable");
-            table.innerHTML = accounts.map(a => `
-                <tr onclick="openAccount('${a.name}', '${a.type}', '${a.owner}', '${a.created}')">
-                    <td>${a.name}</td><td>${a.type}</td><td>${a.owner}</td><td>${a.created}</td>
-                </tr>
-            `).join("");
+        function loadSection(section) {
+            document.getElementById("app-title").innerText = `Art of the Earth - ${section}`;
+            let tableBody = document.getElementById("tableBody");
+            tableBody.innerHTML = data[section].map(d => `<tr><td>${d.name}</td><td>${d.type}</td><td>${d.owner}</td></tr>`).join("");
         }
 
-        function searchAccounts() {
-            let input = document.getElementById("searchInput").value.toLowerCase();
-            let filtered = accounts.filter(a => a.name.toLowerCase().includes(input));
-            document.getElementById("accountsTable").innerHTML = filtered.map(a => `
-                <tr onclick="openAccount('${a.name}', '${a.type}', '${a.owner}', '${a.created}')">
-                    <td>${a.name}</td><td>${a.type}</td><td>${a.owner}</td><td>${a.created}</td>
-                </tr>
-            `).join("");
-        }
+        function openModal() { document.getElementById("modal").style.display = "block"; }
+        function closeModal() { document.getElementById("modal").style.display = "none"; }
 
-        function openAccount(name, type, owner, created) {
-            document.getElementById("accountsPage").style.display = "none";
-            document.getElementById("accountPage").style.display = "flex";
-            document.getElementById("accountName").innerText = name;
-            document.getElementById("accountType").innerText = type;
-            document.getElementById("accountOwner").innerText = owner;
-            document.getElementById("accountDate").innerText = created;
+        function toggleAppDropdown(event) {
+            let dropdown = document.querySelector(".app-dropdown");
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+            event.stopPropagation();
         }
-
-        function goBack() {
-            loadAccounts();
-        }
-
-        loadAccounts();
+        document.body.addEventListener("click", () => document.querySelector(".app-dropdown").style.display = "none");
+        
+        loadSection("Accounts");
     </script>
 
 </body>
