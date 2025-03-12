@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landscaping CRM</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; display: flex; }
+        .top-menu { position: absolute; top: 10px; left: 10px; }
+        .dropdown { position: relative; display: inline-block; }
+        .dropdown-btn { padding: 10px; background-color: #4CAF50; color: white; border: none; cursor: pointer; }
+        .dropdown-content { display: none; position: absolute; background-color: #f9f9f9; min-width: 160px; box-shadow: 0px 8px 16px rgba(0,0,0,0.2); z-index: 1; }
+        .dropdown-content a { color: black; padding: 12px 16px; text-decoration: none; display: block; cursor: pointer; }
+        .dropdown-content a:hover { background-color: #f1f1f1; }
+        .dropdown:hover .dropdown-content { display: block; }
+        .sidebar { width: 200px; background-color: #f4f4f4; padding: 20px; height: 100vh; }
+        .sidebar a { display: block; padding: 10px; text-decoration: none; color: #333; cursor: pointer; }
+        .sidebar a:hover { background-color: #ddd; }
+        .main-panel { flex-grow: 1; padding: 20px; }
+        .header { font-size: 24px; margin-bottom: 20px; }
+        .stats, .recent { margin-bottom: 20px; }
+        .add-new { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="top-menu">
+        <div class="dropdown">
+            <button class="dropdown-btn">CRM ▼</button>
+            <div class="dropdown-content">
+                <a onclick="switchModule('CRM')">CRM</a>
+                <a onclick="switchModule('Scheduling')">Scheduling</a>
+                <a onclick="switchModule('Estimating')">Estimating</a>
+                <a onclick="switchModule('Billing')">Billing</a>
+            </div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <a onclick="showSection('Parent Accounts')">Parent Accounts</a>
+        <a onclick="showSection('Sub Accounts')">Sub Accounts</a>
+        <a onclick="showSection('Opportunities')">Opportunities</a>
+        <a onclick="showSection('Contacts')">Contacts</a>
+        <a onclick="showSection('Leads')">Leads</a>
+        <a onclick="showSection('Job Folders')">Job Folders</a>
+    </div>
+    <div class="main-panel">
+        <div class="header" id="header">Landscaping CRM</div>
+        <div class="user">Logged in as: Jane Doe</div>
+        <div class="stats" id="stats">
+            <p>Total Parent Accounts: 25</p>
+            <p>Open Opportunities: 8</p>
+            <p>New Leads Today: 3</p>
+        </div>
+        <div class="recent" id="recent">
+            <p>Recent Activity:</p>
+            <ul>
+                <li>Added Lead: John Doe - 2025-03-10</li>
+                <li>Updated Job: 123 Maple St - 2025-03-11</li>
+                <li>Closed Opportunity: ABC Corp - $5,000</li>
+            </ul>
+        </div>
+        <div class="add-new">
+            <select onchange="addNew(this.value)">
+                <option value="">Add New...</option>
+                <option value="Parent Account">Parent Account</option>
+                <option value="Sub Account">Sub Account</option>
+                <option value="Opportunity">Opportunity</option>
+                <option value="Contact">Contact</option>
+                <option value="Lead">Lead</option>
+                <option value="Job Folder">Job Folder</option>
+            </select>
+        </div>
+    </div>
+
+    <script>
+        function switchModule(module) {
+            document.getElementById('header').textContent = `Landscaping ${module}`;
+            const stats = document.getElementById('stats');
+            if (module === 'Scheduling') {
+                stats.innerHTML = `<p>Jobs Today: 12</p><p>Crews Assigned: 5</p><p>Pending Jobs: 3</p>`;
+            } else if (module === 'Billing') {
+                stats.innerHTML = `<p>Invoices Due: 7</p><p>Total Billed: $15,000</p><p>Overdue: 2</p>`;
+            } else {
+                stats.innerHTML = `<p>Total Parent Accounts: 25</p><p>Open Opportunities: 8</p><p>New Leads Today: 3</p>`;
+            }
+        }
+
+        function showSection(section) {
+            const recent = document.getElementById('recent');
+            recent.innerHTML = `<p>${section} Preview:</p>`;
+            if (section === 'Parent Accounts') {
+                recent.innerHTML += `<ul><li>John Doe - Residential</li><li>ABC Corp - Commercial</li></ul>`;
+            } else if (section === 'Opportunities') {
+                recent.innerHTML += `<ul><li>123 Maple St - $2,500 - Open</li><li>456 Oak Ave - $3,000 - Won</li></ul>`;
+            } else {
+                recent.innerHTML += `<p>Mock data for ${section} here.</p>`;
+            }
+        }
+
+        function addNew(type) {
+            if (type) {
+                alert(`Adding a new ${type}... (Mock action)`);
+                document.querySelector('.add-new select').value = '';
+            }
+        }
+    </script>
+</body>
+</html>
