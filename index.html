@@ -5,39 +5,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Art of the Earth - Backoffice</title>
     <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* Inline fallback CSS */
-        body { font-family: Arial, sans-serif; margin: 0; display: flex; flex-direction: column; }
-        .top-bar { background: #f4f4f4; padding: 10px; display: flex; align-items: center; flex-wrap: wrap; }
-        .dropdown { position: relative; display: inline-block; margin-right: 20px; }
-        .dropdown-btn { padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-        .dropdown-content { display: none; position: absolute; background: #fff; min-width: 160px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 1; }
-        .dropdown-content a { padding: 10px; color: #333; text-decoration: none; display: block; }
+        body { font-family: 'Roboto', 'Segoe UI', Arial, sans-serif; margin: 0; display: flex; flex-direction: column; background: #F5F7FA; }
+        .top-bar { background: #FFFFFF; padding: 15px 20px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 4px 15px rgba(0,0,0,0.08); border-bottom: 1px solid #DADCE0; }
+        .dropdown { position: relative; }
+        .dropdown-btn { padding: 10px 18px; background: #1A73E8; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(26,115,232,0.3); }
+        .dropdown-btn:hover { background: #1557B0; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,115,232,0.4); }
+        .dropdown-btn i { margin-right: 8px; }
+        .dropdown-content { display: none; position: absolute; background: #FFFFFF; min-width: 200px; box-shadow: 0 6px 20px rgba(0,0,0,0.12); border-radius: 10px; z-index: 1; overflow: hidden; }
+        .dropdown-content a { padding: 12px 18px; color: #202124; text-decoration: none; display: block; font-size: 14px; transition: background 0.2s ease; }
+        .dropdown-content a:hover { background: #E8F0FE; color: #1A73E8; }
         .dropdown:hover .dropdown-content { display: block; }
-        .top-bar a { padding: 10px; color: #333; text-decoration: none; margin-right: 20px; }
-        .top-bar a:hover { background: #ddd; }
-        .container { display: flex; flex: 1; }
-        header { width: 200px; background: #4CAF50; color: white; padding: 20px; height: 100vh; box-sizing: border-box; }
-        .app-title { font-size: 24px; margin: 0 0 20px 0; }
         .profile-menu { position: relative; }
-        .dropdown-menu { display: none; position: absolute; left: 100%; top: 0; background: #fff; box-shadow: 0 8px 16px rgba(0,0,0,0.2); min-width: 120px; }
+        .profile-menu button { background: none; border: none; color: #5F6368; font-size: 20px; cursor: pointer; padding: 10px; transition: color 0.3s ease; }
+        .profile-menu button:hover { color: #1A73E8; }
+        .dropdown-menu { display: none; position: absolute; right: 0; top: 100%; background: #FFFFFF; box-shadow: 0 6px 20px rgba(0,0,0,0.12); border-radius: 10px; min-width: 160px; }
         .profile-menu:hover .dropdown-menu { display: block; }
-        .dropdown-menu a { padding: 10px; color: #333; text-decoration: none; display: block; }
-        .dropdown-menu a:hover { background: #f1f1f1; }
-        main { flex-grow: 1; padding: 20px; }
-        .header-container { display: flex; justify-content: space-between; margin-bottom: 20px; }
-        .search-bar { padding: 8px; width: 50%; }
-        .add-button { padding: 8px 16px; background: #4CAF50; color: white; border: none; cursor: pointer; }
-        .stats { margin-bottom: 20px; }
+        .dropdown-menu a { padding: 12px 18px; color: #202124; text-decoration: none; display: block; font-size: 14px; transition: background 0.2s ease; }
+        .dropdown-menu a:hover { background: #E8F0FE; color: #1A73E8; }
+        .container { display: flex; flex: 1; }
+        .sidebar { width: 220px; background: #202124; color: #FFFFFF; padding: 25px; height: 100vh; box-sizing: border-box; }
+        .app-title { font-size: 28px; margin: 0 0 40px 0; font-weight: 700; color: #4285F4; letter-spacing: 0.5px; }
+        .sidebar a { padding: 12px 18px; color: #FFFFFF; text-decoration: none; display: block; font-size: 15px; font-weight: 500; transition: all 0.3s ease; }
+        .sidebar a:hover { background: #303134; color: #1A73E8; }
+        .sidebar i { margin-right: 10px; color: #4285F4; }
+        .sidebar a:hover i { color: #1A73E8; }
+        main { flex-grow: 1; padding: 30px; }
+        .header-container { display: flex; justify-content: space-between; margin-bottom: 30px; }
+        .search-bar { padding: 12px 16px; width: 50%; border: none; border-radius: 10px; font-size: 16px; background: #FFFFFF; box-shadow: 0 2px 10px rgba(0,0,0,0.06); transition: all 0.3s ease; }
+        .search-bar:focus { outline: none; box-shadow: 0 4px 15px rgba(26,115,232,0.2); }
+        .add-button { padding: 12px 24px; background: #1A73E8; color: white; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 15px; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(26,115,232,0.3); }
+        .add-button:hover { background: #1557B0; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(26,115,232,0.4); }
+        .add-button i { margin-right: 8px; }
+        .stats { margin-bottom: 30px; background: #FFFFFF; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+        .stats h2 { margin: 0 0 20px 0; font-size: 22px; color: #202124; font-weight: 600; }
+        .stats p { margin: 12px 0; color: #5F6368; font-size: 16px; }
+        .recent-activity { background: #FFFFFF; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
+        .recent-activity h2 { margin: 0 0 20px 0; font-size: 22px; color: #202124; font-weight: 600; }
         .recent-activity ul { list-style: none; padding: 0; }
-        .recent-activity li { padding: 5px 0; }
+        .recent-activity li { padding: 12px 0; color: #5F6368; font-size: 16px; border-bottom: 1px solid #E8ECEF; transition: background 0.2s ease; }
+        .recent-activity li:hover { background: #F8F9FA; }
+        .recent-activity li:last-child { border-bottom: none; }
     </style>
 </head>
 <body>
-    <!-- Top Bar (formerly Sidebar) -->
+    <!-- Top Bar -->
     <nav class="top-bar">
         <div class="dropdown">
-            <button class="dropdown-btn">Backoffice ▼</button>
+            <button class="dropdown-btn"><i class="fas fa-home"></i> Home ▼</button>
             <div class="dropdown-content">
                 <a href="#" data-module="CRM">CRM</a>
                 <a href="#" data-module="Scheduling">Scheduling</a>
@@ -45,31 +61,31 @@
                 <a href="#" data-module="Billing">Billing</a>
             </div>
         </div>
-        <a href="/accounts.html">Accounts</a>
-        <a href="/contacts.html">Contacts</a>
-        <a href="/opportunities.html">Opportunities</a>
-        <a href="/job_folders.html">Job Folders</a>
+        <div class="profile-menu">
+            <button id="profileBtn"><i class="fas fa-user-circle"></i></button>
+            <div id="profileDropdown" class="dropdown-menu">
+                <a href="#">Edit Profile</a>
+                <a href="#">Logout</a>
+            </div>
+        </div>
     </nav>
 
-    <!-- Container for Header and Main -->
+    <!-- Container for Sidebar and Main -->
     <div class="container">
-        <!-- Header (now on left) -->
-        <header>
+        <!-- Sidebar (formerly Header) -->
+        <aside class="sidebar">
             <h1 class="app-title">Art of the Earth</h1>
-            <div class="profile-menu">
-                <button id="profileBtn">Profile</button>
-                <div id="profileDropdown" class="dropdown-menu">
-                    <a href="#">Edit Profile</a>
-                    <a href="#">Logout</a>
-                </div>
-            </div>
-        </header>
+            <a href="/accounts/accounts.html"><i class="fas fa-users"></i> Accounts</a>
+            <a href="/contacts.html"><i class="fas fa-address-book"></i> Contacts</a>
+            <a href="/opportunities.html"><i class="fas fa-lightbulb"></i> Opportunities</a>
+            <a href="/job_folders.html"><i class="fas fa-folder"></i> Job Folders</a>
+        </aside>
 
         <!-- Main Content -->
         <main>
             <section class="header-container">
                 <input type="text" class="search-bar" placeholder="Search Everything...">
-                <button class="add-button">Add New</button>
+                <button class="add-button"><i class="fas fa-plus"></i> Add New</button>
             </section>
 
             <section class="stats">
@@ -95,12 +111,13 @@
     <!-- Scripts -->
     <script src="/assets/script.js"></script>
     <script>
-        // Inline fallback for module switching preview
         document.addEventListener('DOMContentLoaded', () => {
+            const dropdownBtn = document.querySelector('.dropdown-btn');
             document.querySelectorAll('.dropdown-content a').forEach(link => {
                 link.addEventListener('click', (e) => {
                     e.preventDefault();
                     const module = e.target.dataset.module;
+                    dropdownBtn.innerHTML = `<i class="fas fa-th-large"></i> ${module} ▼`;
                     alert(`Switching to ${module} module (placeholder)`);
                 });
             });
