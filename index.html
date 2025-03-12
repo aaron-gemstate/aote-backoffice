@@ -1,107 +1,145 @@
-<!-- index.html - Main entry point -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art of the Earth</title>
-    <link rel="stylesheet" href="assets/styles.css">
+    <title>Art of the Earth - Accounts</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
-    <!-- Load Header & Sidebar -->
-    <div id="header"></div>
-    <div id="sidebar"></div>
-    
-    <!-- Main Content Area -->
-    <div id="content" class="main-panel"></div>
-    
-    <script src="assets/script.js"></script>
+    <header>
+        <div class="app-title">Art of the Earth</div>
+        <div class="nav-icons">
+            <div class="profile-menu">
+                <button id="profileBtn">Profile ▼</button>
+                <div class="dropdown-menu" id="profileDropdown">
+                    <a href="#">Edit Profile</a>
+                    <a href="#">Logout</a>
+                </div>
+            </div>
+            <a href="settings.html" class="settings-icon">⚙</a>
+        </div>
+    </header>
+    <nav>
+        <button id="hamburgerBtn">☰</button>
+        <div class="dropdown-menu" id="appDropdown">
+            <a href="index.html">CRM</a>
+            <a href="billing.html">Billing</a>
+            <a href="estimating.html">Estimating</a>
+            <a href="scheduling.html">Scheduling</a>
+        </div>
+    </nav>
+    <main>
+        <div class="header-container">
+            <input type="text" class="search-bar" id="searchInput" placeholder="Search accounts...">
+            <select id="filterType" onchange="filterAccounts()">
+                <option value="all">All Types</option>
+                <option value="Residential">Residential</option>
+                <option value="General Contractor">General Contractor</option>
+                <option value="Property Manager">Property Manager</option>
+            </select>
+            <button class="add-button" onclick="openModal()">+ Add New</button>
+        </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Parent Account</th>
+                        <th>Phone</th>
+                        <th>Type</th>
+                        <th>Email</th>
+                        <th>Owner</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </main>
 </body>
 </html>
 
-<!-- header.html - Top Navigation -->
-<div class="top-nav">
-    <div class="app-menu" onclick="toggleAppDropdown(event)">
-        <span class="hamburger">☰</span>
-        <span id="app-title">Art of the Earth - CRM</span>
-    </div>
-    <div class="top-right">
-        <div class="profile" onclick="toggleProfileDropdown()">⚙ Settings ▾</div>
-        <div id="profile-dropdown" class="dropdown-content">
-            <a href="profile.html">Edit Profile</a>
-            <a href="#" onclick="logout()">Logout</a>
-        </div>
-    </div>
-</div>
-
-<!-- sidebar.html - Sidebar Navigation -->
-<div class="sidebar">
-    <h3>CRM Navigation</h3>
-    <a onclick="loadPage('accounts.html')">Accounts</a>
-    <a onclick="loadPage('opportunities.html')">Opportunities</a>
-    <a onclick="loadPage('contacts.html')">Contacts</a>
-    <a onclick="loadPage('job_folders.html')">Job Folders</a>
-</div>
-
-<!-- script.js - JavaScript Logic -->
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        loadComponent('header', 'assets/header.html');
-        loadComponent('sidebar', 'assets/sidebar.html');
-        loadPage('accounts.html'); // Default Page
-    });
-    
-    function loadComponent(id, url) {
-        fetch(url).then(response => response.text()).then(html => {
-            document.getElementById(id).innerHTML = html;
-        });
-    }
-    
-    function loadPage(page) {
-        fetch(page).then(response => response.text()).then(html => {
-            document.getElementById('content').innerHTML = html;
-        });
-    }
-    
-    function toggleAppDropdown(event) {
-        event.stopPropagation();
-        let dropdown = document.getElementById('app-dropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-    
-    function toggleProfileDropdown() {
-        let dropdown = document.getElementById('profile-dropdown');
-        dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
-    }
-    
-    function logout() {
-        alert("Logging out...");
-    }
-</script>
-
-<!-- accounts.html - Accounts Page -->
-<div class="header-container">
-    <input type="text" class="search-bar" id="searchInput" placeholder="Search accounts...">
-    <button class="add-button" onclick="openModal()">+ Add New</button>
-</div>
-<div class="table-container">
-    <table>
-        <thead><tr><th>Name</th><th>Type</th><th>Owner</th></tr></thead>
-        <tbody id="tableBody"></tbody>
-    </table>
-</div>
-
 <script>
     let accounts = [
-        { name: "Green Landscaping", type: "Commercial", owner: "John Doe" },
-        { name: "Sunset Gardens", type: "Residential", owner: "Alice Smith" }
+        { name: "Green Landscaping", parent: "None", phone: "555-1234", type: "Residential", email: "info@greenlandscaping.com", owner: "John Doe" },
+        { name: "Sunset Gardens", parent: "None", phone: "555-5678", type: "General Contractor", email: "contact@sunsetgardens.com", owner: "Alice Smith" },
+        { name: "Mountain View Property", parent: "Acme Realty", phone: "555-9101", type: "Property Manager", email: "support@mountainview.com", owner: "Bob Jones" }
     ];
     
     function loadAccounts() {
         let tableBody = document.getElementById("tableBody");
         tableBody.innerHTML = accounts.map(acc => 
-            `<tr><td>${acc.name}</td><td>${acc.type}</td><td>${acc.owner}</td></tr>`
+            `<tr onclick="openAccountDetail('${acc.name}')">
+                <td>${acc.name}</td>
+                <td>${acc.parent}</td>
+                <td>${acc.phone}</td>
+                <td>${acc.type}</td>
+                <td>${acc.email}</td>
+                <td>${acc.owner}</td>
+            </tr>`
         ).join("");
     }
+
+    function filterAccounts() {
+        let filterValue = document.getElementById("filterType").value;
+        let filteredAccounts = filterValue === "all" ? accounts : accounts.filter(acc => acc.type === filterValue);
+        let tableBody = document.getElementById("tableBody");
+        tableBody.innerHTML = filteredAccounts.map(acc => 
+            `<tr onclick="openAccountDetail('${acc.name}')">
+                <td>${acc.name}</td>
+                <td>${acc.parent}</td>
+                <td>${acc.phone}</td>
+                <td>${acc.type}</td>
+                <td>${acc.email}</td>
+                <td>${acc.owner}</td>
+            </tr>`
+        ).join("");
+    }
+
+    document.getElementById("searchInput").addEventListener("input", function () {
+        let searchValue = this.value.toLowerCase();
+        let tableBody = document.getElementById("tableBody");
+        let filteredAccounts = accounts.filter(acc => 
+            acc.name.toLowerCase().includes(searchValue) || 
+            acc.parent.toLowerCase().includes(searchValue) ||
+            acc.phone.includes(searchValue) ||
+            acc.type.toLowerCase().includes(searchValue) ||
+            acc.email.toLowerCase().includes(searchValue) ||
+            acc.owner.toLowerCase().includes(searchValue)
+        );
+        tableBody.innerHTML = filteredAccounts.map(acc => 
+            `<tr onclick="openAccountDetail('${acc.name}')">
+                <td>${acc.name}</td>
+                <td>${acc.parent}</td>
+                <td>${acc.phone}</td>
+                <td>${acc.type}</td>
+                <td>${acc.email}</td>
+                <td>${acc.owner}</td>
+            </tr>`
+        ).join("");
+    });
+
+    function openAccountDetail(accountName) {
+        window.location.href = `account-detail.html?name=${encodeURIComponent(accountName)}`;
+    }
+
+    document.getElementById("hamburgerBtn").addEventListener("click", function() {
+        document.getElementById("appDropdown").classList.toggle("show");
+    });
+
+    document.getElementById("profileBtn").addEventListener("click", function() {
+        document.getElementById("profileDropdown").classList.toggle("show");
+    });
+
+    window.onclick = function(event) {
+        if (!event.target.matches('#hamburgerBtn')) {
+            document.getElementById("appDropdown").classList.remove("show");
+        }
+        if (!event.target.matches('#profileBtn')) {
+            document.getElementById("profileDropdown").classList.remove("show");
+        }
+    }
+
     loadAccounts();
 </script>
