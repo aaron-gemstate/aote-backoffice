@@ -65,6 +65,31 @@
         .app-dropdown a:hover {
             background-color: #f1f1f1;
         }
+        .profile-menu {
+            position: relative;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .profile-dropdown {
+            display: none;
+            position: absolute;
+            right: 10px;
+            top: 40px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .profile-dropdown a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: black;
+            cursor: pointer;
+        }
+        .profile-dropdown a:hover {
+            background-color: #f1f1f1;
+        }
         .sidebar {
             width: 220px;
             height: 100vh;
@@ -95,13 +120,6 @@
             font-weight: 600;
             margin-bottom: 20px;
         }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
         .table-container {
             overflow-x: auto;
         }
@@ -122,9 +140,6 @@
             color: white;
             cursor: pointer;
         }
-        th:hover {
-            background-color: #005bb5;
-        }
         .search-bar {
             margin-bottom: 15px;
             display: flex;
@@ -136,23 +151,6 @@
             border: 1px solid #ccc;
             font-size: 16px;
         }
-        .pagination {
-            margin-top: 10px;
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-        .pagination button {
-            padding: 8px 12px;
-            border: none;
-            background-color: #0070d2;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .pagination button:hover {
-            background-color: #005bb5;
-        }
     </style>
 </head>
 <body>
@@ -163,6 +161,7 @@
             <span class="hamburger">☰</span>
             <span id="app-title">Art of the Earth - CRM</span>
         </div>
+        <div class="profile-menu" onclick="toggleProfileDropdown()">👤</div>
     </div>
 
     <!-- 🔹 APPLICATION DROPDOWN MENU -->
@@ -173,9 +172,15 @@
         <a onclick="switchApp('Scheduling')">Scheduling</a>
     </div>
 
+    <!-- 🔹 PROFILE DROPDOWN MENU -->
+    <div class="profile-dropdown" id="profileDropdown">
+        <a href="#">Edit Profile</a>
+        <a href="#">Logout</a>
+    </div>
+
     <!-- 🔹 SIDEBAR -->
     <div class="sidebar">
-        <h3>Navigation</h3>
+        <h3>CRM Navigation</h3>
         <a onclick="loadAccounts()">Accounts</a>
     </div>
 
@@ -183,54 +188,30 @@
     <div class="main-panel">
         <div class="header">Accounts</div>
         
-        <div class="card">
-            <div class="search-bar">
-                <input type="text" id="searchInput" placeholder="Search accounts..." onkeyup="searchAccounts()">
-                <select id="filterType" onchange="filterAccounts()">
-                    <option value="">All Types</option>
-                    <option value="Commercial">Commercial</option>
-                    <option value="Residential">Residential</option>
-                </select>
-            </div>
-
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th onclick="sortTable(0)">Name</th>
-                            <th onclick="sortTable(1)">Type</th>
-                            <th onclick="sortTable(2)">Owner</th>
-                            <th onclick="sortTable(3)">Industry</th>
-                            <th onclick="sortTable(4)">Created Date</th>
-                        </tr>
-                    </thead>
-                    <tbody id="accountsTable">
-                        <!-- Data will be loaded here -->
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="pagination">
-                <button onclick="prevPage()">Previous</button>
-                <span id="pageIndicator">Page 1</span>
-                <button onclick="nextPage()">Next</button>
-            </div>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Owner</th>
+                        <th>Industry</th>
+                        <th>Created Date</th>
+                    </tr>
+                </thead>
+                <tbody id="accountsTable">
+                    <tr><td>Green Landscaping</td><td>Commercial</td><td>John Doe</td><td>Construction</td><td>2024-05-01</td></tr>
+                    <tr><td>Blue Skies Pools</td><td>Residential</td><td>Jane Smith</td><td>Home Services</td><td>2024-06-15</td></tr>
+                    <tr><td>Sunshine Gardens</td><td>Commercial</td><td>Mike Johnson</td><td>Landscaping</td><td>2024-04-10</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script>
-        const accounts = [
-            { name: "Green Landscaping", type: "Commercial", owner: "John Doe", industry: "Construction", created: "2024-05-01" },
-            { name: "Blue Skies Pools", type: "Residential", owner: "Jane Smith", industry: "Home Services", created: "2024-06-15" },
-            { name: "Sunshine Gardens", type: "Commercial", owner: "Mike Johnson", industry: "Landscaping", created: "2024-04-10" }
-        ];
-        
-        function loadAccounts() {
-            let table = document.getElementById("accountsTable");
-            table.innerHTML = accounts.map(a => `<tr><td>${a.name}</td><td>${a.type}</td><td>${a.owner}</td><td>${a.industry}</td><td>${a.created}</td></tr>`).join("");
-        }
-
-        loadAccounts();
+        function toggleAppDropdown() { document.getElementById("appDropdown").style.display = "block"; }
+        function toggleProfileDropdown() { document.getElementById("profileDropdown").style.display = "block"; }
+        function loadAccounts() { document.getElementById("app-title").textContent = "Art of the Earth - Accounts"; }
     </script>
 
 </body>
