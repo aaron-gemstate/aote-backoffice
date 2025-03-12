@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Landscaping CRM</title>
+    <title>Art of the Earth</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         * {
@@ -26,30 +26,44 @@
             justify-content: space-between;
             padding: 12px 20px;
             box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            position: relative;
         }
-        .app-selector {
+        .app-menu {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
             font-size: 18px;
             font-weight: 600;
+        }
+        .hamburger {
+            font-size: 24px;
             cursor: pointer;
         }
-        .nav-links {
-            display: flex;
-            gap: 20px;
+        .app-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 20px;
+            background-color: white;
+            color: black;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+            border-radius: 5px;
+            overflow: hidden;
+            min-width: 180px;
+            z-index: 10;
         }
-        .nav-links a {
-            color: white;
+        .app-dropdown a {
+            display: block;
+            padding: 12px;
             text-decoration: none;
+            color: black;
             font-size: 16px;
             font-weight: 500;
-            padding: 8px 12px;
-            border-radius: 5px;
-            transition: background 0.3s;
             cursor: pointer;
         }
-        .nav-links a:hover, .nav-links .active {
-            background-color: white;
-            color: #0070d2;
-            font-weight: 600;
+        .app-dropdown a:hover {
+            background-color: #f1f1f1;
         }
         .icons {
             display: flex;
@@ -145,15 +159,11 @@
 
     <!-- 🔹 TOP NAVIGATION BAR -->
     <div class="top-nav">
-        <div class="app-selector">🌿 AOTE Back Office</div>
-        
-        <div class="nav-links">
-            <a href="#" onclick="switchTab('CRM')" class="active">CRM</a>
-            <a href="#" onclick="switchTab('Scheduling')">Scheduling</a>
-            <a href="#" onclick="switchTab('Estimating')">Estimating</a>
-            <a href="#" onclick="switchTab('Billing')">Billing</a>
+        <div class="app-menu" onclick="toggleAppDropdown()">
+            <span class="hamburger">☰</span>
+            <span id="app-title">Art of the Earth - CRM</span>
         </div>
-
+        
         <div class="icons">
             <a href="settings.html">⚙️</a>
             <div class="profile-menu">
@@ -166,8 +176,16 @@
         </div>
     </div>
 
+    <!-- 🔹 APPLICATION DROPDOWN MENU -->
+    <div class="app-dropdown" id="appDropdown">
+        <a onclick="switchApp('CRM')">CRM</a>
+        <a onclick="switchApp('Billing')">Billing</a>
+        <a onclick="switchApp('Estimating')">Estimating</a>
+        <a onclick="switchApp('Scheduling')">Scheduling</a>
+    </div>
+
     <!-- 🔹 SIDEBAR -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
         <h3>Navigation</h3>
         <a onclick="loadContent('Accounts')">Accounts</a>
         <a onclick="loadContent('Parent Accounts')">Parent Accounts</a>
@@ -179,7 +197,7 @@
 
     <!-- 🔹 MAIN CONTENT -->
     <div class="main-panel">
-        <div class="header" id="header">Landscaping CRM</div>
+        <div class="header" id="header">Art of the Earth - CRM</div>
         
         <div class="card" id="content">
             <p>Welcome! Select an option from the sidebar.</p>
@@ -187,10 +205,15 @@
     </div>
 
     <script>
-        function switchTab(module) {
-            document.getElementById('header').textContent = `Landscaping ${module}`;
-            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
-            event.target.classList.add('active');
+        function toggleAppDropdown() {
+            let dropdown = document.getElementById('appDropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function switchApp(app) {
+            document.getElementById('app-title').textContent = `Art of the Earth - ${app}`;
+            document.getElementById('header').textContent = `Art of the Earth - ${app}`;
+            toggleAppDropdown();
         }
 
         function loadContent(section) {
