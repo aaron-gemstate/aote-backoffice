@@ -1,0 +1,89 @@
+<!-- accounts.html - Accounts Page -->
+<div class="header-container">
+    <input type="text" class="search-bar" id="searchInput" placeholder="Search accounts...">
+    <select id="filterType" onchange="filterAccounts()">
+        <option value="all">All Types</option>
+        <option value="Residential">Residential</option>
+        <option value="General Contractor">General Contractor</option>
+        <option value="Property Manager">Property Manager</option>
+    </select>
+    <button class="add-button" onclick="openModal()">+ Add New</button>
+</div>
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Parent Account</th>
+                <th>Phone</th>
+                <th>Type</th>
+                <th>Email</th>
+                <th>Owner</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+</div>
+
+<script>
+    let accounts = [
+        { name: "Green Landscaping", parent: "None", phone: "555-1234", type: "Residential", email: "info@greenlandscaping.com", owner: "John Doe" },
+        { name: "Sunset Gardens", parent: "None", phone: "555-5678", type: "General Contractor", email: "contact@sunsetgardens.com", owner: "Alice Smith" },
+        { name: "Mountain View Property", parent: "Acme Realty", phone: "555-9101", type: "Property Manager", email: "support@mountainview.com", owner: "Bob Jones" }
+    ];
+    
+    function loadAccounts() {
+        let tableBody = document.getElementById("tableBody");
+        tableBody.innerHTML = accounts.map(acc => 
+            `<tr>
+                <td>${acc.name}</td>
+                <td>${acc.parent}</td>
+                <td>${acc.phone}</td>
+                <td>${acc.type}</td>
+                <td>${acc.email}</td>
+                <td>${acc.owner}</td>
+            </tr>`
+        ).join("");
+    }
+
+    function filterAccounts() {
+        let filterValue = document.getElementById("filterType").value;
+        let filteredAccounts = filterValue === "all" ? accounts : accounts.filter(acc => acc.type === filterValue);
+        let tableBody = document.getElementById("tableBody");
+        tableBody.innerHTML = filteredAccounts.map(acc => 
+            `<tr>
+                <td>${acc.name}</td>
+                <td>${acc.parent}</td>
+                <td>${acc.phone}</td>
+                <td>${acc.type}</td>
+                <td>${acc.email}</td>
+                <td>${acc.owner}</td>
+            </tr>`
+        ).join("");
+    }
+
+    document.getElementById("searchInput").addEventListener("input", function () {
+        let searchValue = this.value.toLowerCase();
+        let tableBody = document.getElementById("tableBody");
+        let filteredAccounts = accounts.filter(acc => 
+            acc.name.toLowerCase().includes(searchValue) || 
+            acc.parent.toLowerCase().includes(searchValue) ||
+            acc.phone.includes(searchValue) ||
+            acc.type.toLowerCase().includes(searchValue) ||
+            acc.email.toLowerCase().includes(searchValue) ||
+            acc.owner.toLowerCase().includes(searchValue)
+        );
+        tableBody.innerHTML = filteredAccounts.map(acc => 
+            `<tr>
+                <td>${acc.name}</td>
+                <td>${acc.parent}</td>
+                <td>${acc.phone}</td>
+                <td>${acc.type}</td>
+                <td>${acc.email}</td>
+                <td>${acc.owner}</td>
+            </tr>`
+        ).join("");
+    });
+
+    loadAccounts();
+</script>
