@@ -44,11 +44,9 @@
             padding: 8px 12px;
             border-radius: 5px;
             transition: background 0.3s;
+            cursor: pointer;
         }
-        .nav-links a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        .nav-links .active {
+        .nav-links a:hover, .nav-links .active {
             background-color: white;
             color: #0070d2;
             font-weight: 600;
@@ -119,6 +117,7 @@
             text-decoration: none;
             font-weight: 400;
             transition: background 0.3s;
+            cursor: pointer;
         }
         .sidebar a:hover {
             background-color: #34495e;
@@ -140,15 +139,6 @@
             box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-        .stats p, .recent p {
-            font-weight: 400;
-            margin-bottom: 10px;
-        }
-        .add-new select {
-            padding: 10px;
-            border-radius: 5px;
-            font-size: 14px;
-        }
     </style>
 </head>
 <body>
@@ -158,10 +148,10 @@
         <div class="app-selector">🌿 AOTE Back Office</div>
         
         <div class="nav-links">
-            <a href="#" class="active">CRM</a>
-            <a href="#">Scheduling</a>
-            <a href="#">Estimating</a>
-            <a href="#">Billing</a>
+            <a href="#" onclick="switchTab('CRM')" class="active">CRM</a>
+            <a href="#" onclick="switchTab('Scheduling')">Scheduling</a>
+            <a href="#" onclick="switchTab('Estimating')">Estimating</a>
+            <a href="#" onclick="switchTab('Billing')">Billing</a>
         </div>
 
         <div class="icons">
@@ -179,33 +169,43 @@
     <!-- 🔹 SIDEBAR -->
     <div class="sidebar">
         <h3>Navigation</h3>
-        <a href="#">Accounts</a>
-        <a href="#">Parent Accounts</a>
-        <a href="#">Opportunities</a>
-        <a href="#">Contacts</a>
-        <a href="#">Leads</a>
-        <a href="#">Job Folders</a>
+        <a onclick="loadContent('Accounts')">Accounts</a>
+        <a onclick="loadContent('Parent Accounts')">Parent Accounts</a>
+        <a onclick="loadContent('Opportunities')">Opportunities</a>
+        <a onclick="loadContent('Contacts')">Contacts</a>
+        <a onclick="loadContent('Leads')">Leads</a>
+        <a onclick="loadContent('Job Folders')">Job Folders</a>
     </div>
 
     <!-- 🔹 MAIN CONTENT -->
     <div class="main-panel">
         <div class="header" id="header">Landscaping CRM</div>
         
-        <div class="card stats">
-            <p>Total Accounts: 25</p>
-            <p>Open Opportunities: 8</p>
-            <p>New Leads Today: 3</p>
-        </div>
-
-        <div class="card recent">
-            <p>Recent Activity:</p>
-            <ul>
-                <li>Added Lead: John Doe - 2025-03-10</li>
-                <li>Updated Job: 123 Maple St - 2025-03-11</li>
-                <li>Closed Opportunity: ABC Corp - $5,000</li>
-            </ul>
+        <div class="card" id="content">
+            <p>Welcome! Select an option from the sidebar.</p>
         </div>
     </div>
+
+    <script>
+        function switchTab(module) {
+            document.getElementById('header').textContent = `Landscaping ${module}`;
+            document.querySelectorAll('.nav-links a').forEach(link => link.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function loadContent(section) {
+            let content = document.getElementById('content');
+            let data = {
+                "Accounts": "<p>Showing all Accounts...</p>",
+                "Parent Accounts": "<p>Showing all Parent Accounts...</p>",
+                "Opportunities": "<p>Showing Opportunities...</p>",
+                "Contacts": "<p>Showing Contacts...</p>",
+                "Leads": "<p>Showing Leads...</p>",
+                "Job Folders": "<p>Showing Job Folders...</p>",
+            };
+            content.innerHTML = data[section] || "<p>Data not found.</p>";
+        }
+    </script>
 
 </body>
 </html>
