@@ -1,93 +1,114 @@
-<!-- Updated accounts.html - Accounts Page -->
-<div class="header-container">
-    <input type="text" class="search-bar" id="searchInput" placeholder="Search accounts...">
-    <select id="filterType" onchange="filterAccounts()">
-        <option value="all">All Types</option>
-        <option value="Residential">Residential</option>
-        <option value="General Contractor">General Contractor</option>
-        <option value="Property Manager">Property Manager</option>
-    </select>
-    <button class="add-button" onclick="openModal()">+ Add New</button>
-</div>
-<div class="table-container">
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Parent Account</th>
-                <th>Phone</th>
-                <th>Type</th>
-                <th>Email</th>
-                <th>Owner</th>
-            </tr>
-        </thead>
-        <tbody id="tableBody"></tbody>
-    </table>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accounts - Art of the Earth</title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <link rel="stylesheet" href="/accounts/account.css">
+    <style>
+        /* Inline fallback CSS */
+        body { font-family: Arial, sans-serif; margin: 0; display: flex; flex-direction: column; }
+        .top-bar { background: #f4f4f4; padding: 10px; display: flex; align-items: center; flex-wrap: wrap; }
+        .dropdown { position: relative; display: inline-block; margin-right: 20px; }
+        .dropdown-btn { padding: 10px; background: #4CAF50; color: white; border: none; cursor: pointer; }
+        .dropdown-content { display: none; position: absolute; background: #fff; min-width: 160px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        .dropdown:hover .dropdown-content { display: block; }
+        .top-bar a { padding: 10px; color: #333; text-decoration: none; margin-right: 20px; }
+        .top-bar a:hover { background: #ddd; }
+        .top-bar .active { background: #ddd; font-weight: bold; }
+        .container { display: flex; flex: 1; }
+        header { width: 200px; background: #4CAF50; color: white; padding: 20px; height: 100vh; box-sizing: border-box; }
+        .app-title { font-size: 24px; margin: 0; }
+        main { flex-grow: 1; padding: 20px; }
+        .header-container { display: flex; justify-content: space-between; margin-bottom: 20px; }
+        .search-bar { padding: 8px; width: 50%; }
+        .add-button { padding: 8px 16px; background: #4CAF50; color: white; border: none; }
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; }
+        th { background: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <!-- Top Bar (formerly Sidebar) -->
+    <nav class="top-bar">
+        <div class="dropdown">
+            <button class="dropdown-btn">Backoffice ▼</button>
+            <div class="dropdown-content">
+                <a href="#" data-module="CRM">CRM</a>
+                <a href="#" data-module="Scheduling">Scheduling</a>
+                <a href="#" data-module="Estimating">Estimating</a>
+                <a href="#" data-module="Billing">Billing</a>
+            </div>
+        </div>
+        <a href="/accounts/accounts.html" class="active">Accounts</a>
+        <a href="/contacts.html">Contacts</a>
+        <a href="/opportunities.html">Opportunities</a>
+        <a href="/job_folders.html">Job Folders</a>
+    </nav>
 
-<script>
-    let accounts = [
-        { name: "Green Landscaping", parent: "None", phone: "555-1234", type: "Residential", email: "info@greenlandscaping.com", owner: "John Doe" },
-        { name: "Sunset Gardens", parent: "None", phone: "555-5678", type: "General Contractor", email: "contact@sunsetgardens.com", owner: "Alice Smith" },
-        { name: "Mountain View Property", parent: "Acme Realty", phone: "555-9101", type: "Property Manager", email: "support@mountainview.com", owner: "Bob Jones" }
-    ];
-    
-    function loadAccounts() {
-        let tableBody = document.getElementById("tableBody");
-        tableBody.innerHTML = accounts.map(acc => 
-            `<tr onclick="openAccountDetail('${acc.name}')">
-                <td>${acc.name}</td>
-                <td>${acc.parent}</td>
-                <td>${acc.phone}</td>
-                <td>${acc.type}</td>
-                <td>${acc.email}</td>
-                <td>${acc.owner}</td>
-            </tr>`
-        ).join("");
-    }
+    <!-- Container for Header and Main -->
+    <div class="container">
+        <!-- Header (now on left) -->
+        <header>
+            <h1 class="app-title">Accounts</h1>
+        </header>
 
-    function filterAccounts() {
-        let filterValue = document.getElementById("filterType").value;
-        let filteredAccounts = filterValue === "all" ? accounts : accounts.filter(acc => acc.type === filterValue);
-        let tableBody = document.getElementById("tableBody");
-        tableBody.innerHTML = filteredAccounts.map(acc => 
-            `<tr onclick="openAccountDetail('${acc.name}')">
-                <td>${acc.name}</td>
-                <td>${acc.parent}</td>
-                <td>${acc.phone}</td>
-                <td>${acc.type}</td>
-                <td>${acc.email}</td>
-                <td>${acc.owner}</td>
-            </tr>`
-        ).join("");
-    }
+        <!-- Main Content -->
+        <main>
+            <section class="header-container">
+                <input type="text" class="search-bar" placeholder="Search Accounts...">
+                <button class="add-button">Add New Account</button>
+            </section>
 
-    document.getElementById("searchInput").addEventListener("input", function () {
-        let searchValue = this.value.toLowerCase();
-        let tableBody = document.getElementById("tableBody");
-        let filteredAccounts = accounts.filter(acc => 
-            acc.name.toLowerCase().includes(searchValue) || 
-            acc.parent.toLowerCase().includes(searchValue) ||
-            acc.phone.includes(searchValue) ||
-            acc.type.toLowerCase().includes(searchValue) ||
-            acc.email.toLowerCase().includes(searchValue) ||
-            acc.owner.toLowerCase().includes(searchValue)
-        );
-        tableBody.innerHTML = filteredAccounts.map(acc => 
-            `<tr onclick="openAccountDetail('${acc.name}')">
-                <td>${acc.name}</td>
-                <td>${acc.parent}</td>
-                <td>${acc.phone}</td>
-                <td>${acc.type}</td>
-                <td>${acc.email}</td>
-                <td>${acc.owner}</td>
-            </tr>`
-        ).join("");
-    });
+            <section class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Account Name</th>
+                            <th>Parent Account</th>
+                            <th>Phone</th>
+                            <th>Type</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody id="accountTableBody">
+                        <tr>
+                            <td><a href="/accounts/account_detail.html">Green Landscaping</a></td>
+                            <td>None</td>
+                            <td>555-1234</td>
+                            <td>Residential</td>
+                            <td>contact@greenlandscaping.com</td>
+                        </tr>
+                        <tr>
+                            <td><a href="/accounts/account_detail.html">Blue Construction</a></td>
+                            <td>ABC Corp</td>
+                            <td>555-5678</td>
+                            <td>General Contractor</td>
+                            <td>info@blueconstruction.com</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+        </main>
+    </div>
 
-    function openAccountDetail(accountName) {
-        window.location.href = `account-detail.html?name=${encodeURIComponent(accountName)}`;
-    }
-
-    loadAccounts();
-</script>
+    <!-- Scripts -->
+    <script src="/assets/script.js"></script>
+    <script src="/accounts/account.js"></script>
+    <script>
+        // Inline fallback for search
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchBar = document.querySelector('.search-bar');
+            const tableBody = document.getElementById('accountTableBody');
+            searchBar.addEventListener('input', () => {
+                const filter = searchBar.value.toLowerCase();
+                Array.from(tableBody.rows).forEach(row => {
+                    row.style.display = row.cells[0].textContent.toLowerCase().includes(filter) ? '' : 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
